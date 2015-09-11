@@ -14,6 +14,9 @@ if (php_sapi_name() === 'cli-server') {
     unset($path);
 }
 
+//For libraries that specify autoload information, Composer generates a vendor/autoload.php file. You can simply include this file and you will get autoloading for free.
+require 'vendor/autoload.php'; //mannualy added - needed to make it work
+
 // Setup autoloading
 require 'init_autoloader.php';
 

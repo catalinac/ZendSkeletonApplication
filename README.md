@@ -1,118 +1,79 @@
-ZendSkeletonApplication
-=======================
+![Logo](https://raw.githubusercontent.com/zendframework/zf2/234b554f2ca202095aea32e4fa557553f8849664/resources/ZendFramework-logo.png)
 
-Introduction
-------------
-This is a simple, skeleton application using the ZF2 MVC layer and module
-systems. This application is meant to be used as a starting place for those
-looking to get their feet wet with ZF2.
+# Welcome to the *Zend Framework 2.4* Release!
 
-Installation using Composer
----------------------------
+Master:
+[![Build Status](https://secure.travis-ci.org/zendframework/zf2.svg?branch=master)](http://travis-ci.org/zendframework/zf2)
+[![Coverage Status](https://coveralls.io/repos/zendframework/zf2/badge.svg?branch=master)](https://coveralls.io/r/zendframework/zf2)
+Develop:
+[![Build Status](https://secure.travis-ci.org/zendframework/zf2.svg?branch=develop)](http://travis-ci.org/zendframework/zf2)
+[![Coverage Status](https://coveralls.io/repos/zendframework/zf2/badge.svg?branch=develop)](https://coveralls.io/r/zendframework/zf2)
 
-The easiest way to create a new ZF2 project is to use [Composer](https://getcomposer.org/). If you don't have it already installed, then please install as per the [documentation](https://getcomposer.org/doc/00-intro.md).
+## RELEASE INFORMATION
 
+*Zend Framework 2.4.7*
 
-Create your new ZF2 project:
+This is a maintenance release in the version 2.4 series.
 
-    composer create-project -n -sdev zendframework/skeleton-application path/to/install
+11 August 2015
 
+### UPDATES IN 2.4.7
 
+Please see [CHANGELOG.md](CHANGELOG.md).
 
-### Installation using a tarball with a local Composer
+### SYSTEM REQUIREMENTS
 
-If you don't have composer installed globally then another way to create a new ZF2 project is to download the tarball and install it:
+Zend Framework 2 requires PHP 5.3.23 or later; we recommend using the
+latest PHP version whenever possible.
 
-1. Download the [tarball](https://github.com/zendframework/ZendSkeletonApplication/tarball/master), extract it and then install the dependencies with a locally installed Composer:
+### INSTALLATION
 
-        cd my/project/dir
-        curl -#L https://github.com/zendframework/ZendSkeletonApplication/tarball/master | tar xz --strip-components=1
-    
+Please see [INSTALL.md](INSTALL.md).
 
-2. Download composer into your project directory and install the dependencies:
+### CONTRIBUTING
 
-        curl -s https://getcomposer.org/installer | php
-        php composer.phar install
+If you wish to contribute to Zend Framework, please read both the
+[CONTRIBUTING.md](CONTRIBUTING.md) and [README-GIT.md](README-GIT.md) file.
 
-If you don't have access to curl, then install Composer into your project as per the [documentation](https://getcomposer.org/doc/00-intro.md).
+### QUESTIONS AND FEEDBACK
 
-Web server setup
-----------------
+Online documentation can be found at http://framework.zend.com/manual.
+Questions that are not addressed in the manual should be directed to the
+appropriate mailing list:
 
-### PHP CLI server
+http://framework.zend.com/archives/subscribe/
 
-The simplest way to get started if you are using PHP 5.4 or above is to start the internal PHP cli-server in the root
-directory:
+If you find code in this release behaving in an unexpected manner or
+contrary to its documented behavior, please create an issue in our GitHub
+issue tracker:
 
-    php -S 0.0.0.0:8080 -t public/ public/index.php
+https://github.com/zendframework/zf2/issues
 
-This will start the cli-server on port 8080, and bind it to all network
-interfaces.
+If you would like to be notified of new releases, you can subscribe to
+the fw-announce mailing list by sending a blank message to
+<fw-announce-subscribe@lists.zend.com>.
 
-**Note:** The built-in CLI server is *for development only*.
+## Reporting Potential Security Issues
 
-### Vagrant server
+If you have encountered a potential security vulnerability in Zend Framework, please report it to us at [zf-security@zend.com](mailto:zf-security@zend.com). We will work with you to verify the vulnerability and patch it.
 
-This project supports a basic [Vagrant](http://docs.vagrantup.com/v2/getting-started/index.html) configuration with an inline shell provisioner to run the Skeleton Application in a [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
+When reporting issues, please provide the following information:
 
-1. Run vagrant up command
+- Component(s) affected
+- A description indicating how to reproduce the issue
+- A summary of the security vulnerability and impact
 
-    vagrant up
+We request that you contact us via the email address above and give the project contributors a chance to resolve the vulnerability and issue a new release prior to any public exposure; this helps protect Zend Framework users and provides them with a chance to upgrade and/or update in order to protect their applications.
 
-2. Visit [http://localhost:8085](http://localhost:8085) in your browser
+For sensitive email communications, please use [our PGP key](http://framework.zend.com/zf-security-pgp-key.asc).
 
-Look in [Vagrantfile](Vagrantfile) for configuration details.
+### LICENSE
 
-### Apache setup
+The files in this archive are released under the Zend Framework license.
+You can find a copy of this license in [LICENSE.txt](LICENSE.txt).
 
-To setup apache, setup a virtual host to point to the public/ directory of the
-project and you should be ready to go! It should look something like below:
+### ACKNOWLEDGEMENTS
 
-    <VirtualHost *:80>
-        ServerName zf2-app.localhost
-        DocumentRoot /path/to/zf2-app/public
-        <Directory /path/to/zf2-app/public>
-            DirectoryIndex index.php
-            AllowOverride All
-            Order allow,deny
-            Allow from all
-            <IfModule mod_authz_core.c>
-            Require all granted
-            </IfModule>
-        </Directory>
-    </VirtualHost>
-
-### Nginx setup
-
-To setup nginx, open your `/path/to/nginx/nginx.conf` and add an
-[include directive](http://nginx.org/en/docs/ngx_core_module.html#include) below
-into `http` block if it does not already exist:
-
-    http {
-        # ...
-        include sites-enabled/*.conf;
-    }
-
-
-Create a virtual host configuration file for your project under `/path/to/nginx/sites-enabled/zf2-app.localhost.conf`
-it should look something like below:
-
-    server {
-        listen       80;
-        server_name  zf2-app.localhost;
-        root         /path/to/zf2-app/public;
-
-        location / {
-            index index.php;
-            try_files $uri $uri/ @php;
-        }
-
-        location @php {
-            # Pass the PHP requests to FastCGI server (php-fpm) on 127.0.0.1:9000
-            fastcgi_pass   127.0.0.1:9000;
-            fastcgi_param  SCRIPT_FILENAME /path/to/zf2-app/public/index.php;
-            include fastcgi_params;
-        }
-    }
-
-Restart the nginx, now you should be ready to go!
+The Zend Framework team would like to thank all the [contributors](https://github.com/zendframework/zf2/contributors) to the Zend
+Framework project, our corporate sponsor, and you, the Zend Framework user.
+Please visit us sometime soon at http://framework.zend.com.
